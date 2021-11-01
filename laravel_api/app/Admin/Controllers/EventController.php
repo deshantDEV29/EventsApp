@@ -81,4 +81,11 @@ class EventController extends AdminController
 
         return $form;
     }
+
+    public function events(Request $request)
+{
+    $q = $request->get('q');
+
+    return Events::where('title', 'like', "%$q%")->paginate(null, ['id', 'name as text']);
+}
 }

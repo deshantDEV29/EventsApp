@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\EventController;
 use App\Http\Controllers\API\QuizController;
+use App\Http\Controllers\API\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,5 +32,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('getQuestions', [QuizController::class, 'getQuestions']);
     Route::get('getQuiz', [QuizController::class, 'getQuiz']);
+    Route::get('displayActiveUsers', [ChatController::class, 'displayActiveUsers']);
+    Route::get('displayAllUsers', [ChatController::class, 'displayAllUsers']);
+    
+    
 });
  

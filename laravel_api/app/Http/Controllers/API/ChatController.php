@@ -11,11 +11,17 @@ class ChatController extends Controller
 {
     public function displayActiveUsers(){
 
-        $request =  DB::table('personal_access_tokens')->get('tokenable_id');
+        $request =  DB::table('personal_access_tokens')
+                        ->join('users', 'personal_access_tokens.tokenable_id','=', 'users.id')
+                        ->select('personal_access_tokens.tokenable_id', 'users.name')
+                        ->get();
+        
         $response = [
-            'personal_access_tokens' => User::whereIn('id', $request['tokenable_id'])->first()
+            'personal_access_tokens' =>  $request
+            
+            
         ];
-        return response($request, 200);
+        return response($response, 200);
      }
 
      public function displayAllUsers(){

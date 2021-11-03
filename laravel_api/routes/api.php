@@ -34,7 +34,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('getQuiz', [QuizController::class, 'getQuiz']);
     Route::get('displayActiveUsers', [ChatController::class, 'displayActiveUsers']);
     Route::get('displayAllUsers', [ChatController::class, 'displayAllUsers']);
+    Route::post('sendmessage', [ChatController::class, 'sendmessage']);
+    Route::post('getMessage', [ChatController::class, 'getMessage']);
+
     
+
     
 });
  

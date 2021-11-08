@@ -71,5 +71,42 @@ class ChatController extends Controller
         return response( $response, 200);
     }
 
+    public function getConversation(){
 
-}
+        // $data = $request->validate([
+        //     'userid' => 'int',
+        // ]);
+
+        $conversations =   Message::where('sender_id',auth()->user()->id)                       
+                            ->orWhere('reciever_id',auth()->user()->id)
+                            ->orderBy('updated_at', 'desc')
+                            ->get();
+		$count = count($conversations);
+		$array = [];
+		for ($i = 0; $i < $count; $i++) {
+
+                    if ($conversations[$i]->{'sender_id'} != auth()->user()->id) {
+                       array_push($array,($conversations[$i]->{'sender_id'}));
+                    }
+                    elseif ($conversations[$i]->{'reciever_id'} != auth()->user()->id) {
+                        array_push($array,($conversations[$i]->{'reciever_id'}));
+                    }
+                };
+    
+
+        $unique = array_unique($array);
+
+        $array2=[];
+
+        $users = DB::table('users')
+                    ->whereIn('id', $unique)
+                    ->select('id', 'name')
+                    ->get() ;
+
+        $response = [
+            'reciepients' =>  $users                                                
+                    ];
+       
+        return response( $response, 200);
+        }
+    }

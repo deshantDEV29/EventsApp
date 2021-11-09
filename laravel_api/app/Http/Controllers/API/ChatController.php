@@ -34,13 +34,13 @@ class ChatController extends Controller
 
      public function sendmessage(Request $request){
         $data = $request->validate([
-            'sender_id' => 'int',
+            
             'reciever_id' => 'int',
             'message' => 'required|string',
         ]);
 
         $user = Message::create([
-            'sender_id' =>$data['sender_id'],
+            'sender_id' =>auth()->user()->id,
             'reciever_id' =>$data['reciever_id'],
             'message' =>$data['message'],
             
@@ -55,27 +55,20 @@ class ChatController extends Controller
 
     public function getMessage(Request $request){
         $data = $request->validate([
-            'userid_1' => 'int',
             'userid_2' => 'int',
         ]);
-        
-        $response = [
-            'user1message' =>Message::where('sender_id', $request['userid_1'])
-                                ->where('reciever_id',$request['userid_2'])                       
-                                ->get(),
-            'user2message' =>Message::where('sender_id', $request['userid_2'])
-                                ->where('reciever_id',$request['userid_1'])                       
-                                ->get()           
-        ];
+
+        $response =   Message::where('sender_id',auth()->user()->id) 
+                            ->where('reciever_id',$data['userid_2']) 
+                            ->orWhere('sender_id',$data['userid_2'])                 
+                            ->Where('reciever_id',auth()->user()->id)
+                            ->orderBy('updated_at', 'asc')
+                            ->get();
 
         return response( $response, 200);
     }
 
     public function getConversation(){
-
-        // $data = $request->validate([
-        //     'userid' => 'int',
-        // ]);
 
         $conversations =   Message::where('sender_id',auth()->user()->id)                       
                             ->orWhere('reciever_id',auth()->user()->id)

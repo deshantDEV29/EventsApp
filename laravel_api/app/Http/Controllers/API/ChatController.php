@@ -11,10 +11,13 @@ use Illuminate\Support\Facades\DB;
 class ChatController extends Controller
 {
     public function displayActiveUsers(){
+        $user = auth()->user()->id;
 
         $request =  DB::table('personal_access_tokens')
                         ->join('users', 'personal_access_tokens.tokenable_id','=', 'users.id')
+                        ->where('personal_access_tokens.tokenable_id','!=',$user)
                         ->select('personal_access_tokens.tokenable_id', 'users.name')
+                        ->orderBy('users.name','desc')
                         ->get();
         
         $response = [
@@ -26,8 +29,13 @@ class ChatController extends Controller
      }
 
      public function displayAllUsers(){
+        $user = auth()->user()->id;
         $response = [
-            'users' => User::all('id','name') 
+            'users' => DB::table('users')
+                        ->where('id','!=',$user)
+                        ->select('id', 'name')
+                        ->orderBy('name','asc')
+                        ->get()
         ];
         return response($response, 200);
      }

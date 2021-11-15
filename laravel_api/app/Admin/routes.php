@@ -16,4 +16,5 @@ Route::group([
     $router->resource('livequestions', LiveQuestionController::class);
     $router->resource('questions', QuestionController::class);
     $router->resource('quizzes', QuizController::class);
+    $router->resource('sessions', SessionController::class);
 });

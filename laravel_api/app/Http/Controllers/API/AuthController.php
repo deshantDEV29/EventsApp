@@ -23,12 +23,17 @@ class AuthController extends Controller
             'phone' =>$data['phone'],
             'password' =>Hash::make($data['password']),
         ]);
+
+
+       
         
         $token = $user->createToken('fundaProjectToken')->plainTextToken;
        
         $response = [
             'user'=> $user,
             'token'=>$token, 
+      
+            
         ];
 
         return response( $response, 201);
@@ -41,6 +46,7 @@ class AuthController extends Controller
             'success'=>true];
     }
 
+
     public function login(Request $request){
         $data = $request->validate([
             'email' => 'required|email|max:191',
@@ -48,6 +54,7 @@ class AuthController extends Controller
         ]);
 
         $user = User::where('email', $data['email'])->first();
+        $username = User::where('email', $data['email'])->first('name');
 
         if(!$user || !Hash::check($data['password'],$user->password)){
             return response(['message'=>'Invalid Credentials'],401);
@@ -56,7 +63,8 @@ class AuthController extends Controller
             $token = $user->createToken('fundaProjectTokenLogin')->plainTextToken;
             $response = [
                 'user' => $user,
-                'token' => $token
+                'token' => $token,
+                'username' => $username
             ];
 
             return response($response, 200);

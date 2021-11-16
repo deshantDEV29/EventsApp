@@ -6,6 +6,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\EventController;
 use App\Http\Controllers\API\QuizController;
 use App\Http\Controllers\API\ChatController;
+use App\Http\Controllers\API\SessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('sendmessage', [ChatController::class, 'sendmessage']);
     Route::post('getMessage', [ChatController::class, 'getMessage']);
     Route::get('getConversation', [ChatController::class, 'getConversation']);
+    Route::post('getSessions', [SessionController::class, 'getSessions']);
    
     
 });

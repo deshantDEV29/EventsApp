@@ -17,4 +17,5 @@ Route::group([
     $router->resource('questions', QuestionController::class);
     $router->resource('quizzes', QuizController::class);
     $router->resource('sessions', SessionController::class);
+    $router->resource('f-a-qs', FAQController::class);
 });

@@ -8,6 +8,8 @@ use App\Http\Controllers\API\QuizController;
 use App\Http\Controllers\API\ChatController;
 use App\Http\Controllers\API\SessionController;
 use App\Http\Controllers\API\FAQController;
+use App\Http\Controllers\API\PollController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +43,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('getConversation', [ChatController::class, 'getConversation']);
     Route::post('getSessions', [SessionController::class, 'getSessions']);
     Route::get('displayFAQ', [FAQController::class, 'displayFAQ']);
+    Route::get('getpolllist', [PollController::class, 'getpolllist']);
+    
    
     
 });
